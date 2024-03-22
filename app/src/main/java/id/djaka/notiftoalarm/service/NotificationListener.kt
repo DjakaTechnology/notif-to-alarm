@@ -96,7 +96,7 @@ class NotificationListener : NotificationListenerService() {
             .setFullScreenIntent(fullScreenPendingIntent, true)
 
         GlobalScope.launch {
-            delay(10000)
+            delay(3000)
             baseContext.getSystemService(NotificationManager::class.java).notify(NOTIFICATION_ID, builder.build())
         }
     }
