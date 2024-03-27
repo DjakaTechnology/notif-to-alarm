@@ -1,11 +1,24 @@
 package id.djaka.notiftoalarm.core
 
 import android.content.Intent
-import android.os.Parcelable
 import androidx.activity.ComponentActivity
+import com.chrynan.parcelable.core.Parcelable
+import com.chrynan.parcelable.core.getParcelableExtra
+import com.chrynan.parcelable.core.putExtra
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.serializer
 
-fun <T : Parcelable> ComponentActivity.activityParam(): Lazy<T> = lazy { intent.getParcelableExtra<T>("PARAM")!! }
+const val PARAM = "PARAM"
 
-fun Intent.putParam(param: Parcelable) {
-    putExtra("PARAM", param)
+@OptIn(ExperimentalSerializationApi::class)
+val ParcelableSerialization = Parcelable
+
+@OptIn(ExperimentalSerializationApi::class)
+inline fun <reified T : Any> ComponentActivity.activityParam(): Lazy<T> = lazy {
+    intent.getParcelableExtra(PARAM, kClass = T::class, parcelable = ParcelableSerialization)!!
+}
+
+@OptIn(ExperimentalSerializationApi::class)
+inline fun <reified T: Any> Intent.putParam(param: T) {
+    putExtra(PARAM, param, ParcelableSerialization)
 }

@@ -15,36 +15,24 @@ import androidx.core.app.NotificationCompat
 import id.djaka.notiftoalarm.R
 import id.djaka.notiftoalarm.alarm.AlarmActivity
 import id.djaka.notiftoalarm.alarm.AlarmActivityParam
-import id.djaka.notiftoalarm.model.NotificationAppItem
-import id.djaka.notiftoalarm.repository.MainRepository
+import id.djaka.notiftoalarm.shared.model.NotificationInfo
+import id.djaka.notiftoalarm.shared.repository.SettingRepository
+import id.djaka.notiftoalarm.shared.usecase.IsNotificationWhitelistedUseCase
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
 class NotificationListener : NotificationListenerService() {
+    private val coroutineScope = MainScope()
+    private val isNotificationWhitelistedUseCase = IsNotificationWhitelistedUseCase(
+        SettingRepository()
+    )
 
     @Suppress("RemoveRedundantCallsOfConversionMethods")
-    fun isTestingMessage(sbn: StatusBarNotification): Boolean {
-        if (sbn.packageName == "id.djaka.notiftoalarm") {
-            if (sbn.notification.extras.getString("android.title") == "This is title!") {
-                return true
-            }
-        } else if (sbn.packageName == "com.whatsapp") {
-            if (sbn.notification.extras.getString("android.text")?.toString() == "TESTING NOTIF TO ALARM") {
-                return true
-            }
-        }
-        return false
-    }
-
-    @Suppress("RemoveRedundantCallsOfConversionMethods")
-    override fun onNotificationPosted(sbn: StatusBarNotification?) {
-        super.onNotificationPosted(sbn)
-        if (sbn == null) return
-
-        if (!MainRepository.getSelectedApp().contains(sbn.packageName) && !isTestingMessage(sbn)) return
-
+    private fun convertToNotificationInfo(sbn: StatusBarNotification): NotificationInfo {
         val label = application.packageManager.getApplicationLabel(
             application.packageManager.getApplicationInfo(
                 sbn.packageName ?: "",
@@ -55,22 +43,43 @@ class NotificationListener : NotificationListenerService() {
         // Need to convert to strnig be caues sometime it returns spannable
         val text = sbn.notification.extras.getString("android.text")?.toString().orEmpty()
         val title = sbn.notification.extras.getString("android.title")?.toString().orEmpty()
-        if (text.isEmpty() && title.isEmpty()) return
-
-        showNotificationFullscreen(sbn, label, title, text)
+        return NotificationInfo(
+            sbn.packageName ?: "",
+            label.toString(),
+            title,
+            text
+        )
     }
 
-    private fun showNotificationFullscreen(sbn: StatusBarNotification, label: CharSequence, title: String, text: String) {
+
+    override fun onNotificationPosted(sbn: StatusBarNotification?) {
+        super.onNotificationPosted(sbn)
+        if (sbn == null) return
+
+        coroutineScope.launch {
+            handleNotification(sbn)
+        }
+    }
+
+    private suspend fun handleNotification(sbn: StatusBarNotification) {
+        val item = convertToNotificationInfo(sbn)
+
+        if (!isNotificationWhitelistedUseCase.invoke(item)) return
+
+        showNotificationFullscreen(item)
+    }
+
+    private suspend fun showNotificationFullscreen(info: NotificationInfo) {
         createNotificationChannel()
 
         val intent = AlarmActivity.create(
             applicationContext, AlarmActivityParam(
-                NotificationAppItem(
-                    sbn.packageName ?: "",
-                    label.toString()
+                id.djaka.notiftoalarm.shared.model.NotificationAppItem(
+                    info.id,
+                    info.label
                 ),
-                message = title,
-                title = text
+                message = info.title,
+                title = info.text
             )
         ).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -86,8 +95,8 @@ class NotificationListener : NotificationListenerService() {
         )
 
         val builder: NotificationCompat.Builder = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle(getString(R.string.app_name) + " - " + title)
-            .setContentText(text)
+            .setContentTitle(getString(R.string.app_name) + " - " + info.title)
+            .setContentText(info.text)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_ALARM)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -95,10 +104,8 @@ class NotificationListener : NotificationListenerService() {
             .setOnlyAlertOnce(true)
             .setFullScreenIntent(fullScreenPendingIntent, true)
 
-        GlobalScope.launch {
-            delay(3000)
-            baseContext.getSystemService(NotificationManager::class.java).notify(NOTIFICATION_ID, builder.build())
-        }
+        delay(3000)
+        baseContext.getSystemService(NotificationManager::class.java).notify(NOTIFICATION_ID, builder.build())
     }
 
     private fun createNotificationChannel() {
@@ -119,6 +126,12 @@ class NotificationListener : NotificationListenerService() {
             val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        coroutineScope.cancel()
     }
 
     companion object {

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -54,21 +53,21 @@ import com.smarttoolfactory.slider.MaterialSliderDefaults
 import com.smarttoolfactory.slider.SliderBrushColor
 import id.djaka.notiftoalarm.core.activityParam
 import id.djaka.notiftoalarm.core.putParam
-import id.djaka.notiftoalarm.model.NotificationAppItem
 import id.djaka.notiftoalarm.service.NotificationListener
+import id.djaka.notiftoalarm.shared.model.NotificationAppItem
 import id.djaka.notiftoalarm.ui.theme.NotifToAlarmTheme
 import id.djaka.notiftoalarm.ui.widget.PackageIcon
 import kotlinx.coroutines.delay
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 
-@Parcelize
+@Serializable
 class AlarmActivityParam(
     val notificationAppItem: NotificationAppItem,
     val title: String,
     val message: String,
     val playSound: Boolean = false,
-) : Parcelable
+)
 
 class AlarmActivity : ComponentActivity() {
     private val param by activityParam<AlarmActivityParam>()
@@ -182,7 +181,7 @@ fun AlarmScreen(
                     )
                 }
                 PackageIcon(
-                    packageName = notificationAppItem.packageName,
+                    packageName = notificationAppItem.id,
                     modifier = Modifier.size(72.dp)
                 )
             }
@@ -256,7 +255,7 @@ fun PreviewAlarmScreen() {
             NotifToAlarmTheme {
                 AlarmScreen(
                     notificationAppItem = NotificationAppItem(
-                        packageName = "id.djaka.notiftoalarm",
+                        id = "id.djaka.notiftoalarm",
                         name = "Example",
                     ), message = "Hello, World!", title = "Hello!"
                 )

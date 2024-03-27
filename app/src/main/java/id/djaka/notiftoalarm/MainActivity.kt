@@ -49,7 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
-import id.djaka.notiftoalarm.model.NotificationAppItem
+import id.djaka.notiftoalarm.shared.model.NotificationAppItem
 import id.djaka.notiftoalarm.settings.SettingsActivity
 import id.djaka.notiftoalarm.ui.theme.NotifToAlarmTheme
 import id.djaka.notiftoalarm.ui.widget.PackageIcon
@@ -66,19 +66,18 @@ class MainActivity : ComponentActivity() {
 
             val viewModel by viewModels<MainViewModel>()
             LaunchedEffect(Unit) {
-                viewModel.onCreate(packageManager, context = this@MainActivity)
+                viewModel.onCreate()
             }
 
             val permissionLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission(),
                 onResult = {
-                    viewModel.checkIsNotificationPermissionAllowed(this@MainActivity)
+                    viewModel.checkPermission()
                 }
             )
 
             LifecycleEventEffect(Lifecycle.Event.ON_RESUME) {
-                viewModel.checkIsNotificationPermissionAllowed(this@MainActivity)
-                viewModel.checkIsManageFullScreenIntentAllowed(this@MainActivity)
+                viewModel.checkPermission()
             }
 
             NotifToAlarmTheme {
@@ -135,7 +134,7 @@ fun Screen(
                 name
             } else {
                 name.filter {
-                    it.name.contains(search, ignoreCase = true)
+                    it.name.contains(search, ignoreCase = true) || it.id.contains(search, ignoreCase = true)
                 }
             }
         )
@@ -242,22 +241,22 @@ private fun AppList(
     selectedApp: Set<String>
 ) {
     LazyColumn(Modifier.fillMaxSize()) {
-        items(filteredItems, key = { it.packageName }) {
+        items(filteredItems, key = { it.id }) {
             Card(modifier = Modifier.padding(vertical = 4.dp), onClick = {
                 onClickItem(it)
             }) {
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
                     PackageIcon(
-                        it.packageName,
+                        it.id,
                         modifier = Modifier.size(24.dp)
                     )
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                        Column(Modifier.weight(1f)) {
-                            Text(text = it.name, fontSize = 14.sp)
-                            Text(text = it.packageName, fontSize = 12.sp, modifier = Modifier.alpha(0.8f))
+                        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Text(text = it.name, fontSize = 14.sp, lineHeight = 16.sp)
+                            Text(text = it.id, fontSize = 12.sp, lineHeight = 14.sp, modifier = Modifier.alpha(0.8f))
                         }
 
-                        Checkbox(checked = selectedApp.contains(it.packageName), onCheckedChange = { _ ->
+                        Checkbox(checked = selectedApp.contains(it.id), onCheckedChange = { _ ->
                             onClickItem(it)
                         })
                     }

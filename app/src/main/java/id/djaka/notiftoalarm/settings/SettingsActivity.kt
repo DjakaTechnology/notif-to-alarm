@@ -33,7 +33,7 @@ import androidx.lifecycle.lifecycleScope
 import id.djaka.notiftoalarm.R
 import id.djaka.notiftoalarm.alarm.AlarmActivity
 import id.djaka.notiftoalarm.alarm.AlarmActivityParam
-import id.djaka.notiftoalarm.model.NotificationAppItem
+import id.djaka.notiftoalarm.shared.model.NotificationAppItem
 import id.djaka.notiftoalarm.ui.theme.NotifToAlarmTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -51,7 +51,7 @@ class SettingsActivity : ComponentActivity() {
                                 AlarmActivity.create(
                                     this@SettingsActivity, AlarmActivityParam(
                                         notificationAppItem = NotificationAppItem(
-                                            packageName = "id.djaka.notiftoalarm",
+                                            id = "id.djaka.notiftoalarm",
                                             name = "App Name Here"
                                         ),
                                         message = "Hello, World!",

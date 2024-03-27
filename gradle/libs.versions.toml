@@ -1,0 +1,36 @@
+[versions]
+accompanistDrawablepainter = "0.35.0-alpha"
+activityCompose = "1.8.2"
+atomicfuGradlePlugin = "0.23.2"
+composeBom = "2024.03.00"
+composeColorfulSliders = "1.2.2"
+coreKtx = "1.12.0"
+espressoCore = "3.5.1"
+junitVersion = "1.1.5"
+junit = "4.13.2"
+kotlin = "2.0.0-Beta5"
+android = "7.0.4"
+datastore = "1.1.0-beta02"
+kotlinxSerializationJson = "1.6.2"
+lifecycleRuntimeKtx = "2.7.0"
+parcelableCore = "0.8.0"
+
+[libraries]
+accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+atomicfu-gradle-plugin = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "atomicfuGradlePlugin" }
+compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+compose-colorful-sliders = { module = "com.github.SmartToolFactory:Compose-Colorful-Sliders", version.ref = "composeColorfulSliders" }
+core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
+datastore-preference = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
+ext-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
+junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
+lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
+parcelable-core = { module = "com.chrynan.parcelable:parcelable-core", version.ref = "parcelableCore" }
+
+[plugins]
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+androidLibrary = { id = "com.android.library", version.ref = "android" }
