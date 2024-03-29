@@ -1,5 +1,6 @@
 package id.djaka.notiftoalarm.shared.usecase
 
+import id.djaka.notiftoalarm.shared.model.KeywordItem
 import id.djaka.notiftoalarm.shared.model.NotificationInfo
 import id.djaka.notiftoalarm.shared.repository.SettingRepository
 import kotlinx.coroutines.flow.first
@@ -11,6 +12,21 @@ class IsNotificationWhitelistedUseCase(private val settingRepository: SettingRep
         }
 
         if (!settingRepository.selectedApp.first().contains(item.id)) return false
+
+        val keywords = settingRepository.keywords.first()[item.id]
+       if (!keywords.isNullOrEmpty()) {
+            for (keyword in keywords) {
+                if (keyword.type == KeywordItem.Type.CONTAINS) {
+                    if (item.text.contains(keyword.keyword)) {
+                        return true
+                    }
+                } else if (keyword.type == KeywordItem.Type.EXCLUDE) {
+                    if (item.text.contains(keyword.keyword)) {
+                        return false
+                    }
+                }
+            }
+       }
 
         return true
     }
