@@ -56,7 +56,7 @@ import id.djaka.notiftoalarm.core.putParam
 import id.djaka.notiftoalarm.service.NotificationListener
 import id.djaka.notiftoalarm.shared.model.NotificationAppItem
 import id.djaka.notiftoalarm.ui.theme.NotifToAlarmTheme
-import id.djaka.notiftoalarm.ui.widget.PackageIcon
+import id.djaka.notiftoalarm.shared.ui.widget.PackageIcon
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 

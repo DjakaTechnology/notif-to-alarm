@@ -63,6 +63,9 @@ class SettingsActivity : ComponentActivity() {
                         },
                         onClickTestNotification = {
                             showNotification()
+                        },
+                        onClickNotificationListener = {
+                            startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
                         })
                 }
             }
@@ -128,8 +131,7 @@ class SettingsActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsScreen(onClickPreviewAlarm: () -> Unit = {}, onClickTestNotification: () -> Unit = {}) {
-    val context = LocalContext.current
+fun SettingsScreen(onClickPreviewAlarm: () -> Unit = {}, onClickTestNotification: () -> Unit = {}, onClickNotificationListener: () -> Unit = {}) {
     Scaffold(
         topBar = {
             TopAppBar(title = { Text(text = "Settings") })
@@ -143,7 +145,7 @@ fun SettingsScreen(onClickPreviewAlarm: () -> Unit = {}, onClickTestNotification
         ) {
             Item("Preview", onClickPreviewAlarm)
             Item(text = "Go to Notification Listener Settings") {
-                context.startActivity(Intent("android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"))
+                onClickNotificationListener()
             }
             Item("Test Notification", onClickTestNotification)
         }

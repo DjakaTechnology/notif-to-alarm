@@ -4,33 +4,59 @@ activityCompose = "1.8.2"
 atomicfuGradlePlugin = "0.23.2"
 composeBom = "2024.03.00"
 composeColorfulSliders = "1.2.2"
+composeviews = "1.6.0.2"
 coreKtx = "1.12.0"
 espressoCore = "3.5.1"
 junitVersion = "1.1.5"
 junit = "4.13.2"
-kotlin = "2.0.0-Beta5"
-android = "7.0.4"
+kotlin = "1.9.23"
+android = "8.3.1"
 datastore = "1.1.0-beta02"
+coroutines = "1.8.0"
+kotlinxDatetime = "0.6.0-RC.2"
 kotlinxSerializationJson = "1.6.2"
 lifecycleRuntimeKtx = "2.7.0"
 parcelableCore = "0.8.0"
+compose-plugin = "1.6.1"
+uuid = "0.8.4"
+voyager = "1.0.0"
 
 [libraries]
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanistDrawablepainter" }
+accompanist-flowlayout = { module = "com.google.accompanist:accompanist-flowlayout", version.ref = "accompanistDrawablepainter" }
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 atomicfu-gradle-plugin = { module = "org.jetbrains.kotlinx:atomicfu-gradle-plugin", version.ref = "atomicfuGradlePlugin" }
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 compose-colorful-sliders = { module = "com.github.SmartToolFactory:Compose-Colorful-Sliders", version.ref = "composeColorfulSliders" }
+composeViews = { module = "io.github.ltttttttttttt:ComposeViews", version.ref = "composeviews" }
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 datastore-preference = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCore" }
 ext-junit = { module = "androidx.test.ext:junit", version.ref = "junitVersion" }
 junit = { module = "junit:junit", version.ref = "junit" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycleRuntimeKtx" }
 lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 parcelable-core = { module = "com.chrynan.parcelable:parcelable-core", version.ref = "parcelableCore" }
+compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+uuid = { module = "com.benasher44:uuid", version.ref = "uuid" }
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-screenModel = { module = "cafe.adriel.voyager:voyager-screenmodel", version.ref = "voyager" }
+voyager-bottomSheetNavigator = { module = "cafe.adriel.voyager:voyager-bottom-sheet-navigator", version.ref = "voyager" }
+voyager-tabNavigator = { module = "cafe.adriel.voyager:voyager-tab-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
+voyager-hilt = { module = "cafe.adriel.voyager:voyager-hilt", version.ref = "voyager" }
+voyager-kodein = { module = "cafe.adriel.voyager:voyager-kodein", version.ref = "voyager" }
+voyager-rxjava = { module = "cafe.adriel.voyager:voyager-rxjava", version.ref = "voyager" }
 
 [plugins]
+androidApplication = { id = "com.android.application", version.ref = "android" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "android" }
+jetbrainsCompose = { id = "org.jetbrains.compose", version.ref = "compose-plugin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

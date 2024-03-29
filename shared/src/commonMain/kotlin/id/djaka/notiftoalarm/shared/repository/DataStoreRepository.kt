@@ -27,4 +27,4 @@ fun getDataStore(producePath: () -> String): DataStore<Preferences> =
     }
 
 
-internal const val settingsDataStoreKey = "notiftoalarm.settings_data_store"
+internal const val settingsDataStoreKey = "settings.preferences_pb"

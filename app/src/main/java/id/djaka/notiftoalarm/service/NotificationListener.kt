@@ -18,7 +18,6 @@ import id.djaka.notiftoalarm.alarm.AlarmActivityParam
 import id.djaka.notiftoalarm.shared.model.NotificationInfo
 import id.djaka.notiftoalarm.shared.repository.SettingRepository
 import id.djaka.notiftoalarm.shared.usecase.IsNotificationWhitelistedUseCase
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay

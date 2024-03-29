@@ -1,18 +1,19 @@
-package id.djaka.notiftoalarm
+package id.djaka.notiftoalarm.shared.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import cafe.adriel.voyager.core.model.ScreenModel
+import cafe.adriel.voyager.core.model.screenModelScope
 import id.djaka.notiftoalarm.shared.model.NotificationAppItem
-import id.djaka.notiftoalarm.repository.MainRepository
 import id.djaka.notiftoalarm.shared.repository.SettingRepository
+import id.djaka.notiftoalarm.shared.usecase.CheckRequiredPermissionUseCase
 import id.djaka.notiftoalarm.shared.usecase.GetListOfAppsUseCase
-import id.djaka.notiftoalarm.usecase.CheckRequiredPermissionUseCase
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainScreenModel : ScreenModel {
     var items by mutableStateOf(listOf<NotificationAppItem>())
     var selectedApp by mutableStateOf(setOf<String>())
     var isNotificationPermissionAllowed by mutableStateOf(false)
@@ -23,8 +24,11 @@ class MainViewModel : ViewModel() {
     private val getListOfAppsUseCase = GetListOfAppsUseCase()
 
     fun onCreate() {
+        settingRepository.selectedApp.onEach {
+            selectedApp = it
+        }.launchIn(screenModelScope)
+
         checkPermission()
-        selectedApp = MainRepository.getSelectedApp()
         loadNotification()
     }
 
@@ -35,7 +39,7 @@ class MainViewModel : ViewModel() {
     }
 
     private fun loadNotification() {
-        viewModelScope.launch {
+        screenModelScope.launch {
             items = getListOfAppsUseCase.invoke()
         }
     }
@@ -47,7 +51,7 @@ class MainViewModel : ViewModel() {
             selectedApp += (item.id)
         }
 
-        viewModelScope.launch {
+        screenModelScope.launch {
             settingRepository.setSelectedApp(selectedApp)
         }
     }
