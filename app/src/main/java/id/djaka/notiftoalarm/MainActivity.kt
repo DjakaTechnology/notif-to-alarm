@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import id.djaka.notiftoalarm.shared.ui.App
+import id.djaka.notiftoalarm.shared.ui.theme.NotifToAlarmTheme
 
 
 class MainActivity : ComponentActivity() {
@@ -11,7 +12,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App()
+            NotifToAlarmTheme {
+                App()
+            }
         }
     }
 }

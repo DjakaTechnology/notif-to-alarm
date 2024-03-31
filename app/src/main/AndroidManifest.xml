@@ -57,9 +57,6 @@
             android:showOnLockScreen="true"
             android:theme="@style/Theme.NotifToAlarm"
             android:turnScreenOn="true" />
-        <activity
-            android:name=".settings.SettingsActivity"
-            android:exported="true" />
     </application>
 
 </manifest>

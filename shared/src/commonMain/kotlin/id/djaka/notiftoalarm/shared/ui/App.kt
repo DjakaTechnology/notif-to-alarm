@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.bottomSheet.BottomSheetNavigator
+import id.djaka.notiftoalarm.shared.ui.theme.NotifToAlarmTheme
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -13,11 +14,13 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 @Composable
 @Preview
 fun App() {
-    BottomSheetNavigator(
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-    ) {
-        Navigator(
-            MainScreen()
-        )
+    NotifToAlarmTheme {
+        BottomSheetNavigator(
+            sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        ) {
+            Navigator(
+                MainScreen()
+            )
+        }
     }
 }

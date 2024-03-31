@@ -1,6 +1,5 @@
 package id.djaka.notiftoalarm.shared.ui.keyword
 
-//import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -35,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +75,7 @@ private fun Screen(
     var keyword by remember { mutableStateOf("") }
 
     Column(Modifier.fillMaxWidth().padding(vertical = 16.dp, horizontal = 12.dp).verticalScroll(rememberScrollState())) {
-        Text("Add Keyword", fontSize = 12.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center)
+        Text("Add Keyword Filter", fontSize = 16.sp, modifier = Modifier.fillMaxWidth(), textAlign = TextAlign.Center, fontWeight = FontWeight.Medium)
         Spacer(Modifier.height(16.dp))
         ExposedDropdownMenuBox(
             modifier = Modifier.fillMaxWidth(),

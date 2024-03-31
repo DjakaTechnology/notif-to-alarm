@@ -137,7 +137,7 @@ private fun Screen(
         Column(
             Modifier
                 .padding(it)
-                .padding(horizontal = 12.dp)
+                .padding(horizontal = 16.dp)
         ) {
             if (!isNotificationPermissionAllowed) {
                 NeedNotificationListenerNotification(onClickRequestPermission)
@@ -148,7 +148,8 @@ private fun Screen(
             }
 
             if (isNotificationPermissionAllowed && isManageFullScreenIntentAllowed) {
-                Text(text = "Select app to show its notification as Alarm", fontSize = 16.sp)
+                Text(text = "Select app to show its notification as Alarm")
+                Spacer(modifier = Modifier.height(8.dp))
                 SearchBar(
                     modifier = Modifier.fillMaxWidth(),
                     query = search,
@@ -200,7 +201,7 @@ private fun AppList(
                         it.id,
                         modifier = Modifier.size(24.dp)
                     )
-                    Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                             Text(text = it.name, fontSize = 14.sp, lineHeight = 16.sp)
                             Text(text = it.id, fontSize = 12.sp, lineHeight = 14.sp, modifier = Modifier.alpha(0.8f))
