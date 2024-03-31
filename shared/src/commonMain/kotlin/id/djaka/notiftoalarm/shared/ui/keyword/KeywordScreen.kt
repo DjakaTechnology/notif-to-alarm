@@ -122,7 +122,10 @@ private fun Screen(
         Spacer(Modifier.height(16.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.fillMaxWidth()) {
             OutlinedTextField(value = keyword, onValueChange = { keyword = it }, modifier = Modifier.weight(1f))
-            FilledIconButton(onClick = { onClickAddKeyword(keyword) }) {
+            FilledIconButton(onClick = {
+                onClickAddKeyword(keyword)
+                keyword = ""
+            }) {
                 Icon(Icons.Filled.Add, "add")
             }
         }

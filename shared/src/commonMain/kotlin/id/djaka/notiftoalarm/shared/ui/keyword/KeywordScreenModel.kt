@@ -20,6 +20,7 @@ data class KeywordScreenModel(
     var items by mutableStateOf(listOf<KeywordItem>())
 
     fun onClickAddKeyword(keyword: String) {
+        if (keyword.isBlank()) return
         items += KeywordItem(
             id = uuid4().toString(),
             keyword = keyword,

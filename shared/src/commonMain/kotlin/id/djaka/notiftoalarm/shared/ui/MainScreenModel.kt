@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class MainScreenModel : ScreenModel {
     var items by mutableStateOf(listOf<NotificationAppItem>())
     var selectedApp by mutableStateOf(setOf<String>())
+    var hadFilter by mutableStateOf(setOf<String>())
     var isNotificationPermissionAllowed by mutableStateOf(false)
     var isManageFullScreenIntentAllowed by mutableStateOf(false)
 
@@ -26,6 +27,15 @@ class MainScreenModel : ScreenModel {
     fun onCreate() {
         settingRepository.selectedApp.onEach {
             selectedApp = it
+        }.launchIn(screenModelScope)
+        settingRepository.keywords.onEach {
+            val setOf = mutableSetOf<String>()
+            it.forEach {
+                if (it.value.isNotEmpty()) {
+                    setOf += it.key
+                }
+            }
+            hadFilter = setOf
         }.launchIn(screenModelScope)
 
         checkPermission()
