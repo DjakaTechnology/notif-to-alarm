@@ -132,7 +132,7 @@ private fun Screen(
         Spacer(Modifier.height(16.dp))
         FlowRow(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             keywords.forEach { keyword ->
-                KeywordItem(keyword.keyword) { onClickDeleteKeyword(keyword.id) }
+                KeywordItem(keyword) { onClickDeleteKeyword(keyword.id) }
             }
         }
     }
@@ -140,13 +140,18 @@ private fun Screen(
 
 @Composable
 private fun KeywordItem(
-    keyword: String,
+    keyword: KeywordItem,
     onClickDelete: () -> Unit = {}
 ) {
     FilledTonalButton(onClick = onClickDelete, contentPadding = ButtonDefaults.TextButtonWithIconContentPadding) {
         Icon(Icons.Filled.Close, "delete", modifier = Modifier.size(16.dp))
         Spacer(Modifier.width(2.dp))
-        Text(keyword)
+        Text(
+            when (keyword.type) {
+                KeywordItem.Type.CONTAINS -> "Contains: "
+                KeywordItem.Type.EXCLUDE -> "Without: "
+            } + keyword.keyword
+        )
     }
 }
 
